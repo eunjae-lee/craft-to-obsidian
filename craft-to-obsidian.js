@@ -4,6 +4,12 @@ const fs = require("fs");
 const path = require("path");
 const Jimp = require("jimp");
 
+function writeFilesKeepingTimestamps(filePath, fileContent) {
+  let stat = fs.statSync(filePath)
+  fs.writeFileSync(filePath, fileContent);
+  fs.utimesSync(filePath, stat.atime, stat.mtime);
+}
+
 function renameFiles(folderPath) {
   const regex = /^(\d{4})\.(\d{2})\.(\d{2})\.md$/; // Regular expression to match "yyyy.mm.dd.md" format
 
@@ -70,7 +76,7 @@ function removeTitle(folderPath) {
 
             fileContent = lines.join("\n");
 
-            fs.writeFileSync(filePath, fileContent);
+            writeFilesKeepingTimestamps(filePath, fileContent);
             console.log(`Title removed from file ${fileName}`);
           } else {
             console.log(`No title found in file ${fileName}`);
@@ -97,7 +103,7 @@ function replaceAssetFolder(folderPath) {
         const updatedContent = fileContent.replace(regex, "($1-$2-$3.assets/");
 
         if (fileContent !== updatedContent) {
-          fs.writeFileSync(filePath, updatedContent);
+          writeFilesKeepingTimestamps(filePath, updatedContent);
           console.log(`Asset folder replaced in file ${filename}`);
         } else {
           console.log(`No asset folder found in file ${filename}`);
@@ -189,7 +195,7 @@ function replaceTiffWithPng(folderPath) {
         });
 
         if (fileContent !== updatedContent) {
-          fs.writeFileSync(filePath, updatedContent);
+          writeFilesKeepingTimestamps(filePath, updatedContent);
           console.log(
             `Replaced .tiff or .tif extensions with .png in file ${filename}`
           );
@@ -226,7 +232,7 @@ function replaceDailyNoteLink(folderPath) {
         content = content.replace(regex, replacement);
 
         // Write the modified content back to the file
-        fs.writeFileSync(filePath, content);
+        writeFilesKeepingTimestamps(filePath, content);
       }
     }
   });
