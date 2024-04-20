@@ -64,6 +64,9 @@ function removeTitle(folderPath) {
 
           if (lines.length > 0 && lines[0].trim().startsWith("# ")) {
             lines.shift(); // Remove the first line
+            if (lines.length > 0 && lines[0].trim().length == 0) {
+              lines.shift(); // Remove the following blank line
+            }
 
             fileContent = lines.join("\n");
 
