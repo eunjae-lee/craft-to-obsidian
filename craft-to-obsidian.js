@@ -62,7 +62,7 @@ function removeTitle(folderPath) {
           let fileContent = fs.readFileSync(filePath, "utf-8");
           const lines = fileContent.split("\n");
 
-          if (lines.length > 0 && lines[0].trim().startsWith("#")) {
+          if (lines.length > 0 && lines[0].trim().startsWith("# ")) {
             lines.shift(); // Remove the first line
 
             fileContent = lines.join("\n");
