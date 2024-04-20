@@ -52,21 +52,26 @@ function removeTitle(folderPath) {
     const files = fs.readdirSync(folderPath);
 
     files.forEach((fileName) => {
-      if (fileName.endsWith(".md")) {
-        const filePath = path.join(folderPath, fileName);
+      const filePath = path.join(folderPath, fileName);
+      const isDirectory = fs.statSync(filePath).isDirectory();
 
-        let fileContent = fs.readFileSync(filePath, "utf-8");
-        const lines = fileContent.split("\n");
+      if (isDirectory) {
+        removeTitle(filePath);
+      } else {
+        if (fileName.endsWith(".md")) {
+          let fileContent = fs.readFileSync(filePath, "utf-8");
+          const lines = fileContent.split("\n");
 
-        if (lines.length > 0 && lines[0].trim().startsWith("#")) {
-          lines.shift(); // Remove the first line
+          if (lines.length > 0 && lines[0].trim().startsWith("#")) {
+            lines.shift(); // Remove the first line
 
-          fileContent = lines.join("\n");
+            fileContent = lines.join("\n");
 
-          fs.writeFileSync(filePath, fileContent);
-          console.log(`Title removed from file ${fileName}`);
-        } else {
-          console.log(`No title found in file ${fileName}`);
+            fs.writeFileSync(filePath, fileContent);
+            console.log(`Title removed from file ${fileName}`);
+          } else {
+            console.log(`No title found in file ${fileName}`);
+          }
         }
       }
     });
@@ -199,19 +204,28 @@ function replaceDailyNoteLink(folderPath) {
   // Read all files in the specified folder
   const files = fs.readdirSync(folderPath);
 
-  files.forEach((file) => {
-    const filePath = path.join(folderPath, file);
+  files.forEach((fileName) => {
+    const filePath = path.join(folderPath, fileName);
+    const isDirectory = fs.statSync(filePath).isDirectory();
 
-    // Read file content
-    let content = fs.readFileSync(filePath, "utf8");
+    if (isDirectory) {
+      replaceDailyNoteLink(filePath);
+    } else {
+      if (fileName.endsWith(".md")) {
+        const filePath = path.join(folderPath, fileName);
 
-    // Match and replace the daily note link format
-    const regex = /\[(.+?)\]\(day:\/\/(\d{4})\.(\d{2})\.(\d{2})\)/g;
-    const replacement = "[[$2-$3-$4]]";
-    content = content.replace(regex, replacement);
+        // Read file content
+        let content = fs.readFileSync(filePath, "utf8");
 
-    // Write the modified content back to the file
-    fs.writeFileSync(filePath, content);
+        // Match and replace the daily note link format
+        const regex = /\[(.+?)\]\(day:\/\/(\d{4})\.(\d{2})\.(\d{2})\)/g;
+        const replacement = "[[$2-$3-$4]]";
+        content = content.replace(regex, replacement);
+
+        // Write the modified content back to the file
+        fs.writeFileSync(filePath, content);
+      }
+    }
   });
 }
 
