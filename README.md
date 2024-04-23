@@ -1,6 +1,6 @@
 > [!WARNING]
 > This repository is no longer maintained.
-> You may want to get a more updated version on [the fork]([url](https://github.com/coofdy/craft-to-obsidian/tree/main)) by @coofdy
+> You may want to get a more updated version on [the fork](https://github.com/coofdy/craft-to-obsidian) by @coofdy
 
 
 # Craft to Obsidian
