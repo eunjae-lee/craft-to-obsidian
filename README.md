@@ -1,3 +1,8 @@
+> [!WARNING]
+> This repository is no longer maintained.
+> You may want to get a more updated version on [the fork]([url](https://github.com/coofdy/craft-to-obsidian/tree/main)) by @coofdy
+
+
 # Craft to Obsidian
 
 Craft allows you to export notes in Markdown format, but you may not want to move them to Obsidian immediately due to certain differences. This repository contains a script that can help you migrate Craft notes to Obsidian by performing various tasks.
