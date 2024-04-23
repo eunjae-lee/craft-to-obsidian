@@ -21,5 +21,5 @@ Clone this repository and run the following:
 ```sh
 npm install
 
-node craft-to-obisidan your-folder-path
+node craft-to-obsidian your-folder-path
 ```
